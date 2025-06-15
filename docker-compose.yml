@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  anonymous-chat-bot:
+    build: .
+    container_name: anonymous_chat_bot
+    env_file: 
+      - .env         # ваш файл с BOT_USERNAME и BOT_TOKEN
+    volumes:
+      - ./downloads:/app/downloads  # сохранять медиа на хосте
+    restart: unless-stopped
