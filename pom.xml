@@ -5,18 +5,18 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.example</groupId>
-  <artifactId>anonymous-chat-bot</artifactId>
+  <artifactId>first-tg-bot</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <!-- Версия Java -->
+    <!-- Используем Java 17 -->
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
-    <!-- Telegram Bots -->
+    <!-- Telegram Bots API -->
     <dependency>
       <groupId>org.telegram</groupId>
       <artifactId>telegrambots</artifactId>
@@ -28,21 +28,21 @@
       <version>6.7.0</version>
     </dependency>
 
-    <!-- Jsoup для парсинга -->
+    <!-- Jsoup для парсинга HTML/XML -->
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>1.15.3</version>
     </dependency>
 
-    <!-- dotenv для работы с .env -->
+    <!-- .env support -->
     <dependency>
       <groupId>io.github.cdimascio</groupId>
       <artifactId>java-dotenv</artifactId>
       <version>5.2.2</version>
     </dependency>
 
-    <!-- SLF4J-simple для логирования -->
+    <!-- Простое логирование (SLF4J) -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
@@ -52,17 +52,16 @@
 
   <build>
     <plugins>
-      <!-- Компиляция Java -->
+      <!-- Компиляция через Maven Compiler Plugin -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.10.1</version>
         <configuration>
           <release>17</release>
         </configuration>
       </plugin>
 
-      <!-- Собираем Fat JAR со всеми зависимостями -->
+      <!-- Собираем \"fat-jar\" со всеми зависимостями -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -74,12 +73,15 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <!-- Указываем точку входа в манифесте -->
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>org.example.Main</mainClass>
                 </transformer>
               </transformers>
+              <!-- Опционально: переименовать выходной JAR -->
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>shaded</shadedClassifierName>
             </configuration>
           </execution>
         </executions>
